@@ -36,10 +36,10 @@
             <i class="el-icon-setting" style="margin-right: 15px"></i>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>个人信息</el-dropdown-item>
-              <el-dropdown-item><router-link :to="{name:'redirect'}">退出登录</router-link></el-dropdown-item>
+              <el-dropdown-item><router-link to="/logout">退出登录</router-link></el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <span>{{username}}</span>
+          <span>{{this.$store.getters.getUser.userName}}</span>
         </el-header>
 
         <el-main>
@@ -54,7 +54,13 @@
   export default {
     //props 方式传值
     props: ['username'],
-    name: "Main"
+    name: "Main",
+    data(){
+      return {
+        loginName:''
+
+      }
+    }
   }
 </script>
 

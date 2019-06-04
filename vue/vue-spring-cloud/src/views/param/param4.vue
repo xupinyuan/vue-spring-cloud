@@ -10,7 +10,7 @@
         next(vm => {
           // vm.getDate();
           // vm.postDate();
-          vm.getDate();
+          vm.postDate();
         });
       },
       //路由跳转后
@@ -31,7 +31,7 @@
         //后台@RequestBody 接收 传递类型request payload
         postDate:function(){
           this.axios.post("http://localhost:8089/findUser",{id:'123'}).then(function (repos) {
-
+            console.log(repos)
           }).catch(function(error){
 
           })

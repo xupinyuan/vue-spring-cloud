@@ -30,7 +30,7 @@ export default new Router({
     },
     //主页
     {
-      path: '/main/:username',
+      path: '/main',
       name: 'Main',
       component: Main,
       //支持props方法传参
@@ -77,6 +77,7 @@ export default new Router({
       path:'*',
       name:'404',
       component:error
+
     }]
 
 

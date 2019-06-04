@@ -4,11 +4,11 @@
     <el-form ref="form" :model="form" :rules="rules"  label-width="80px" class="login-box">
       <h3 class="login-title">vue-spring-cloud</h3>
       <!--prop 绑定验证字段-->
-      <el-form-item label="账号："  prop="username">
-        <el-input type="text" placeholder="请输入账号" v-model="form.username" class="login-input"></el-input>
+      <el-form-item label="账号："  prop="userName">
+        <el-input type="text" placeholder="请输入账号" v-model="form.userName" class="login-input"  @keyup.enter.native="onSubmit('form')"></el-input>
       </el-form-item>
       <el-form-item label="密码："  prop="password">
-        <el-input type="password" placeholder="请输入密码" v-model="form.password" class="login-input"></el-input>
+        <el-input type="password" placeholder="请输入密码" v-model="form.password" class="login-input" @keyup.enter.native="onSubmit('form')"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary"  v-on:click="onSubmit('form')" >登录</el-button>
@@ -24,11 +24,11 @@
     data() {
       return {
         form: {
-          username: '',
+          userName: '',
           password: ''
         },
         rules: {
-          username: [
+          userName: [
             { required: true, message: '请输入用户名', trigger: 'blur' },
           ],
           password: [
@@ -43,13 +43,19 @@
         //表单验证（valid=验证返回值）
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            let fromJson = JSON.stringify(this.form);
-            this.axios.post();
-
-
-            //this.$router.push({name:'Main',params:{username:this.form.username}});
+            //登录请求
+            this.axios.post("http://localhost:8089/login",this.form).then((repos)=>{
+              if(repos.data.code === '1'){
+                //设置状态已登录
+                sessionStorage.setItem("isLogin",true);
+                this.$store.dispatch("asyncUpdateUser",repos.data.data);
+                //路由跳转到主页
+                this.$router.push({name:'Main'});
+              }else {
+                this.openVn(repos.data.message)
+              }
+            });
           } else {
-            console.log('error submit!!');
             return false;
           }
         });
@@ -60,6 +66,14 @@
         //this.onSubmit('form');
         //路由到注册页
        this.$router.push('/register');
+      },
+      openVn(message) {
+        const h = this.$createElement;
+        this.$message({
+          message: h('p', null, [
+            h('span', { style: 'color: red'}, message),
+          ])
+        });
       }
     }
   }
