@@ -49,8 +49,16 @@
                 //设置状态已登录
                 sessionStorage.setItem("isLogin",true);
                 this.$store.dispatch("asyncUpdateUser",repos.data.data);
-                //路由跳转到主页
-                this.$router.push({name:'Main'});
+                //将token 写入cookie
+                this.setCookie("token",repos.data.token);
+
+                let url = this.getUrlKey("redirect")
+                //如果单点登录来的则回到原始页面 否则进入到主页
+                if(url){
+                  window.location.href = url;
+                }else {
+                  this.$router.push({name:'Main'});
+                }
               }else {
                 this.openVn(repos.data.message)
               }
@@ -67,6 +75,7 @@
         //路由到注册页
        this.$router.push('/register');
       },
+      //登录失败弹层
       openVn(message) {
         const h = this.$createElement;
         this.$message({

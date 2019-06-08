@@ -9,6 +9,7 @@ import param2 from '../views/param/param2'
 import param3 from '../views/param/param3'
 import param4 from '../views/param/param4'
 import error from '../views/error/404'
+import SsoIndex from '../views/SsoIndex'
 
 Vue.use(Router);
 
@@ -27,6 +28,12 @@ export default new Router({
       path: '/register',
       name: 'Register',
       component: Register
+    },
+    //sso登录cookie同步
+    {
+      path: '/ssoIndex',
+      name: 'ssoIndex',
+      component: SsoIndex
     },
     //主页
     {
